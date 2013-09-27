@@ -38,11 +38,12 @@ mean(data$Ozone, na.rm=TRUE)
 mean(data$Ozone[!is.na(data$Ozone)])
 
 # Question 8
-subset <- data[data$Ozone > 31 & data$Temp > 90,]
-mean(subset$Solar.R, na.rm=TRUE)
-mean(subset$Solar.R[!is.na(subset$Solar.R)])
-mean(subset[!is.na(subset$Solar.R),"Solar.R"])
+data.sub <- data[data$Ozone > 31 & data$Temp > 90,]
+mean(data.sub$Solar.R, na.rm=TRUE)
+mean(data.sub$Solar.R[!is.na(data.sub$Solar.R)])
+mean(data.sub[!is.na(data.sub$Solar.R),"Solar.R"])
 
+# Q 8 - alternate way using subset function
 subset2 <- subset(data, Ozone > 31 & Temp > 90, drop=TRUE)
 mean(subset2$Solar.R)
 
