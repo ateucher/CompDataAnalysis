@@ -2,3 +2,5 @@
 .Rproj.user
 .Rhistory
 .RData
+*.csv
+*testoutput*.txt

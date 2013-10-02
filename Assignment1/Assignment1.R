@@ -1,6 +1,6 @@
 # Download and load the data
 data_url <- "http://spark-public.s3.amazonaws.com/compdata/data/hw1_data.zip"
-zipfile <- "./data/hw1_data.zip"
+zipfile <- "./Assignment1/data/hw1_data.zip"
 
 download.file(data_url, destfile=zipfile)
 
