@@ -1,6 +1,7 @@
 data_url <- "http://spark-public.s3.amazonaws.com/compdata/data/specdata.zip"
 zipfile <- "./Assignment2/specdata.zip"
 
+
 download.file(data_url, destfile=zipfile)
 
 unzip(zipfile, exdir="./data")
