@@ -11,37 +11,19 @@ corr <- function(directory, threshold = 0) {
   
   files <- list.files(directory, full.names=TRUE)
   
-  compcases <- data.frame(id=integer(length(files))
-                        , no=integer(length(files)))
-  row=1
-  for (file in files) {
-    data <- read.csv(file)
-    compcases[row,"id"] <- data[1,"ID"]
-    compcases[row,"nobs"] <- length(which(complete.cases(data)))
-    row=row+1
+  meetThreshold <- function(x, threshold) {
+    data <- read.csv(x)
+    length(which(complete.cases(data))) > threshold
   }
   
-  useIDs <- compcases$id[compcases$nobs > threshold]
+  useIDs <- sapply(files, meetThreshold, threshold=threshold, USE.NAMES=FALSE)
   
-  correlations <- numeric(length(useIDs))
-  
-  if (length(correlations) == 0) {
-    
-    correlations
-    
-  } else {
-  
-    ids <- formatC(as.integer(useIDs), width=3, flag=0)
-    usefiles <- paste0("specdata/", ids, ".csv")
-    
-    row=1
-    for (file in usefiles) {
-      data <- read.csv(file)
-      correlations[row] <- cor(data$sulfate,data$nitrate, use="complete.obs")
-      row = row+1    
-    }
-  
-    correlations
+  doCorr <- function(x) {
+    data <- read.csv(x)
+    cor(data$sulfate, data$nitrate, use="complete.obs")
   }
   
+  correlations <- as.numeric(sapply(files[useIDs], doCorr, simplify=FALSE
+                                    , USE.NAMES=FALSE))
+  correlations
 }
