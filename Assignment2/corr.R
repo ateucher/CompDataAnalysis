@@ -11,19 +11,22 @@ corr <- function(directory, threshold = 0) {
   
   files <- list.files(directory, full.names=TRUE)
   
+  # Create a list of data frames
+  data.list <- lapply(files, read.csv)
+  
   meetThreshold <- function(x, threshold) {
-    data <- read.csv(x)
-    length(which(complete.cases(data))) > threshold
+    length(which(complete.cases(x))) > threshold
   }
   
-  useIDs <- sapply(files, meetThreshold, threshold=threshold, USE.NAMES=FALSE)
+  # make a logical vector for if the dataset meets the threshold
+  useIDs <- sapply(data.list, meetThreshold, threshold=threshold)
   
   doCorr <- function(x) {
-    data <- read.csv(x)
-    cor(data$sulfate, data$nitrate, use="complete.obs")
+    cor(x$sulfate, x$nitrate, use="complete.obs")
   }
   
-  correlations <- as.numeric(sapply(files[useIDs], doCorr, simplify=FALSE
+  # do correlations on datasets that meet the threshold
+  correlations <- as.numeric(sapply(data.list[useIDs], doCorr, simplify=FALSE
                                     , USE.NAMES=FALSE))
   correlations
 }
