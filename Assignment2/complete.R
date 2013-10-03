@@ -18,12 +18,11 @@ complete <- function(directory, id = 1:332) {
   
   getCompleteCases <- function(x) {
     data <- read.csv(x)
-    data.frame(id=data[1,"ID"], nobs=length(which(complete.cases(data))))
+    out <- c(data[1,"ID"], length(which(complete.cases(data))))
+    out
   }
   
-  outdata <- do.call("rbind", sapply(files, getCompleteCases, simplify=FALSE
-                               , USE.NAMES=FALSE))
+  outdata <- data.frame(t(sapply(files, getCompleteCases)), row.names=NULL)
   
   outdata
-      
 }
