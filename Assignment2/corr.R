@@ -26,7 +26,6 @@ corr <- function(directory, threshold = 0) {
   }
   
   # do correlations on datasets that meet the threshold
-  correlations <- as.numeric(sapply(data.list[useIDs], doCorr, simplify=FALSE
-                                    , USE.NAMES=FALSE))
+  correlations <- sapply(data.list[useIDs], doCorr)
   correlations
 }

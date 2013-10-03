@@ -21,9 +21,7 @@ complete <- function(directory, id = 1:332) {
     data.frame(id=data[1,"ID"], nobs=length(which(complete.cases(data))))
   }
   
-  outdata <- do.call("rbind", sapply(files, getCompleteCases, simplify=FALSE
-                               , USE.NAMES=FALSE))
+  outdata <- do.call("rbind", lapply(files, getCompleteCases))
   
   outdata
-      
 }
