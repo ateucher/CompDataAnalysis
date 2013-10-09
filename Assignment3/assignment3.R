@@ -28,7 +28,8 @@ Drate.HF <- 17 # Heart failure 30-day death rate column
 Drate.PN <- 23 # Pneumonia 30-day death rate column
 
 # 2)
-outcome[,c(11,17,23)] <- as.data.frame(sapply(outcome[,c(11,17,23)], as.numeric))
+outcome[,c(11,17,23)] <- as.data.frame(sapply(outcome[,c(11,17,23)]
+                                              , as.numeric))
 
 # 3)
 
@@ -40,15 +41,10 @@ par(mfrow = c(1,3))
 x.label <- "30-day Death Rate"
 x.lim <- range(death.rates, na.rm=TRUE)
 
-hist(death.rates[,1], main="Heart Attack", xlab=x.label, xlim=x.lim)
-abline(v=median(death.rates[,1], na.rm=TRUE))
-hist(death.rates[,2], main="Heart Failure", xlab=x.label, xlim=x.lim)
-abline(v=median(death.rates[,2], na.rm=TRUE))
-hist(death.rates[,3], main="Pneumonia", xlab=x.label, xlim=x.lim)
-abline(v=median(death.rates[,2], na.rm=TRUE))
-
-# Try to do it with lapply
-lapply(death.rates, function (x) {
-  hist(x, main=names(x), xlab=x.label, xlim=x.lim)
-  abline(v=median(x, na.rm=TRUE))
+lapply(seq_along(death.rates), function (i) {
+  title <- expression(paste0(names(death.rates)[i], " (", bar(X), "="
+                  , round(mean(death.rates[,i], na.rm=TRUE),2), ")"))
+  hist(death.rates[,i], main=title, xlab=x.label, xlim=x.lim)
+  abline(v=median(death.rates[,i], na.rm=TRUE))
 })
+
