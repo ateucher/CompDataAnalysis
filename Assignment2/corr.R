@@ -11,37 +11,21 @@ corr <- function(directory, threshold = 0) {
   
   files <- list.files(directory, full.names=TRUE)
   
-  compcases <- data.frame(id=integer(length(files))
-                        , no=integer(length(files)))
-  row=1
-  for (file in files) {
-    data <- read.csv(file)
-    compcases[row,"id"] <- data[1,"ID"]
-    compcases[row,"nobs"] <- length(which(complete.cases(data)))
-    row=row+1
+  # Create a list of data frames
+  data.list <- lapply(files, read.csv)
+  
+  meetThreshold <- function(x, threshold) {
+    length(which(complete.cases(x))) > threshold
   }
   
-  useIDs <- compcases$id[compcases$nobs > threshold]
+  # make a logical vector for if the dataset meets the threshold
+  useIDs <- sapply(data.list, meetThreshold, threshold=threshold)
   
-  correlations <- numeric(length(useIDs))
-  
-  if (length(correlations) == 0) {
-    
-    correlations
-    
-  } else {
-  
-    ids <- formatC(as.integer(useIDs), width=3, flag=0)
-    usefiles <- paste0("specdata/", ids, ".csv")
-    
-    row=1
-    for (file in usefiles) {
-      data <- read.csv(file)
-      correlations[row] <- cor(data$sulfate,data$nitrate, use="complete.obs")
-      row = row+1    
-    }
-  
-    correlations
+  doCorr <- function(x) {
+    cor(x$sulfate, x$nitrate, use="complete.obs")
   }
   
+  # do correlations on datasets that meet the threshold
+  correlations <- sapply(data.list[useIDs], doCorr)
+  as.numeric(correlations)
 }

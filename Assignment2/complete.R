@@ -16,16 +16,13 @@ complete <- function(directory, id = 1:332) {
   ids <- formatC(as.integer(id), width=3, flag=0)
   files <- paste0("specdata/", ids, ".csv")
   
-  outdata <- data.frame(id=integer(length(files))
-                        , nobs=integer(length(files)))
-  row=1
-  for (file in files) {
-    data <- read.csv(file)
-    outdata[row,"id"] <- data[1,"ID"]
-    outdata[row,"nobs"] <- length(which(complete.cases(data)))
-    row=row+1
+  getCompleteCases <- function(x) {
+    data <- read.csv(x)
+    out <- c(data[1,"ID"], length(which(complete.cases(data))))
+    out
   }
   
+  outdata <- data.frame(t(sapply(files, getCompleteCases)), row.names=NULL)
+  
   outdata
-      
 }
