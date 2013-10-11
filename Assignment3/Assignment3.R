@@ -8,3 +8,7 @@ download.file(datafile, "ProgAssignment3-data.zip")
 
 unzip("ProgAssignment3-data.zip")
 system("mv Hospital_Revised_Flatfiles.pdf doc/Hospital_Revised_Flatfiles.pdf")
+
+
+## Get the submit script:
+source("http://spark-public.s3.amazonaws.com/compdata/scripts/submitscript.R")
