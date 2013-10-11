@@ -8,7 +8,7 @@ rankall <- function(outcome, num="best") {
   }
   
   data <- read.csv("outcome-of-care-measures.csv", colClasses="character")
-  
+
   # rename outcome columns for easy reference
   names(data)[c(11,17,23)] <- outcome.names
   
