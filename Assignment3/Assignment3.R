@@ -1,3 +1,4 @@
+## Download the data, metadata, and instructions
 setwd("./Assignment3")
 instrfile <- "http://spark-public.s3.amazonaws.com/compdata/documents/ProgAssignment3.pdf"
 datafile <- "http://spark-public.s3.amazonaws.com/compdata/data/ProgAssignment3-data.zip"
